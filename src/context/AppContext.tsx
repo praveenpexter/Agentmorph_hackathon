@@ -30,6 +30,20 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [agentStatus, setAgentStatus] = useState<AgentStatus[]>(mockAgentStatus);
   const [isAdmin, setIsAdmin] = useState(false);
 
+  // Custom setCurrentUser that handles onboarding status
+  const setCurrentUserWithOnboarding = (user: User | null) => {
+    if (user) {
+      // For new users or users who haven't completed onboarding, set profile status to loading
+      const needsOnboarding = !user.currentPath && user.profileStatus === 'loaded';
+      setCurrentUser({
+        ...user,
+        profileStatus: needsOnboarding ? 'loading' : user.profileStatus
+      });
+    } else {
+      setCurrentUser(null);
+    }
+  };
+
   const updateUser = (userId: string, updates: Partial<User>) => {
     setUsers(prev => prev.map(user => 
       user.id === userId ? { ...user, ...updates } : user
@@ -67,7 +81,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   return (
     <AppContext.Provider value={{
       currentUser,
-      setCurrentUser,
+      setCurrentUser: setCurrentUserWithOnboarding,
       isAuthenticated: currentUser !== null,
       users,
       updateUser,

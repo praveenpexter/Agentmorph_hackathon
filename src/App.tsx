@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AppProvider } from './context/AppContext';
 import ProtectedRoute from './components/layout/ProtectedRoute';
 import Navigation from './components/layout/Navigation';
+import OnboardingPage from './components/onboarding/OnboardingPage';
 import Dashboard from './components/learner/Dashboard';
 import LearningPage from './components/learner/LearningPage';
 import AssessmentsPage from './components/learner/AssessmentsPage';
@@ -21,6 +22,7 @@ function App() {
             <main className="flex-1 overflow-auto">
               <Routes>
                 {/* Learner Routes */}
+                <Route path="/onboarding" element={<OnboardingPage />} />
                 <Route path="/" element={<Dashboard />} />
                 <Route path="/learning" element={<LearningPage />} />
                 <Route path="/assessments" element={<AssessmentsPage />} />
