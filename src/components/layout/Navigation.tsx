@@ -6,13 +6,14 @@ import {
   ChartBarIcon, 
   CogIcon,
   BookOpenIcon,
-  BeakerIcon
+  BeakerIcon,
+  ArrowRightOnRectangleIcon
 } from '@heroicons/react/24/outline';
 import { useApp } from '../../context/AppContext';
 
 const Navigation: React.FC = () => {
   const location = useLocation();
-  const { isAdmin, toggleAdminMode, currentUser } = useApp();
+  const { isAdmin, toggleAdminMode, currentUser, setCurrentUser } = useApp();
 
   const learnerNavigation = [
     { name: 'Dashboard', href: '/', icon: HomeIcon },
@@ -28,6 +29,10 @@ const Navigation: React.FC = () => {
   ];
 
   const navigation = isAdmin ? adminNavigation : learnerNavigation;
+
+  const handleLogout = () => {
+    setCurrentUser(null);
+  };
 
   return (
     <div className="bg-white shadow-sm border-r border-gray-200 w-64 min-h-screen">
@@ -97,6 +102,17 @@ const Navigation: React.FC = () => {
           );
         })}
       </nav>
+
+      {/* Logout Button */}
+      <div className="absolute bottom-4 left-4 right-4">
+        <button
+          onClick={handleLogout}
+          className="w-full flex items-center px-4 py-3 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
+        >
+          <ArrowRightOnRectangleIcon className="mr-3 h-5 w-5" />
+          Sign Out
+        </button>
+      </div>
     </div>
   );
 };

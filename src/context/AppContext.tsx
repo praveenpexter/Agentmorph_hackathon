@@ -5,6 +5,7 @@ import { mockUsers, mockAgentStatus } from '../data/mockData';
 interface AppContextType {
   currentUser: User | null;
   setCurrentUser: (user: User | null) => void;
+  isAuthenticated: boolean;
   users: User[];
   updateUser: (userId: string, updates: Partial<User>) => void;
   agentStatus: AgentStatus[];
@@ -24,7 +25,7 @@ export const useApp = () => {
 };
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState<User | null>(mockUsers[0]);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [users, setUsers] = useState<User[]>(mockUsers);
   const [agentStatus, setAgentStatus] = useState<AgentStatus[]>(mockAgentStatus);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -67,6 +68,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     <AppContext.Provider value={{
       currentUser,
       setCurrentUser,
+      isAuthenticated: currentUser !== null,
       users,
       updateUser,
       agentStatus,
